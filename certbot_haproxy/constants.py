@@ -57,8 +57,8 @@ from certbot import errors
 from certbot_haproxy.util import MemoiseNoArgs
 
 RE_HAPROXY_DOMAIN_ACL = re.compile(
-    r'\s*acl (?P<name>[0-9a-z_\-.]+) '
-    r'hdr\(host\) -i '
+    r'\s*acl\s+(?P<name>[0-9a-z_\-.]+)\s+'
+    r'(?:hdr\(host\)|req\.ssl_sni)\s+-i\s+'
     r'(?P<domain>'  # Start group "domain"
     r'(?:[0-9-a-z](?:[a-z0-9-]{0,61}[a-z0-9]\.)+)'  # (sub-)domain parts
     r'(?:[0-9-a-z](?:[a-z0-9-]{0,61}[a-z0-9]))'  # TLD part
