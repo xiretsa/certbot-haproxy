@@ -10,6 +10,7 @@ e.g.: `CLI_DEFAULTS_DEBIAN_JESSIE`. Currently these are defined for:
   - Ubuntu Vivid (15.04)
   - Ubuntu Wily (15.10)
   - Ubuntu Xenial (16.04)
+  - CentOS (7)
 
 You can define new lists below following the instructions hereafter, please
 consider making a pull-request when you do so, so others may benefit of your
@@ -87,6 +88,17 @@ CLI_DEFAULTS_DEBIAN_BASED_PRE_SYSTEMD_OS = dict(
     crt_directory='/opt/certbot/haproxy_fullchains',
 )
 
+CLI_DEFAULTS_RHEL_BASED_SYSTEMD_OS = dict(
+    service_manager='systemctl',
+    version_cmd=['/usr/sbin/haproxy', '-v'],
+    restart_cmd=['sudo', 'systemctl', 'restart', 'haproxy'],
+    # Needs the config file as an argument:
+    conftest_cmd=['/usr/sbin/haproxy', '-c', '-f'],
+    haproxy_config='/etc/haproxy/haproxy.cfg',
+    # Needs to be writeable by the user that will run certbot
+    crt_directory='/opt/certbot/haproxy_fullchains',
+)
+
 CLI_DEFAULTS = {
     "debian": {
         '_min_version': '7',
@@ -102,6 +114,10 @@ CLI_DEFAULTS = {
         '15.04': CLI_DEFAULTS_DEBIAN_BASED_SYSTEMD_OS,
         '15.10': CLI_DEFAULTS_DEBIAN_BASED_SYSTEMD_OS,
         '16.04': CLI_DEFAULTS_DEBIAN_BASED_SYSTEMD_OS
+    },
+    "centos": {
+        '_min_version': '7',
+        '7': CLI_DEFAULTS_RHEL_BASED_SYSTEMD_OS
     }
 }
 
